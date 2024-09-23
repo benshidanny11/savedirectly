@@ -19,7 +19,7 @@ export default function SignupPage({ navigation }) {
         console.log('Sending request...');
         const body = { 'countryCode': '+250', 'msisdn': phoneNumber.startsWith('0') ? phoneNumber.substring(1, phoneNumber.length - 1) : phoneNumber };
         const res = await sendHTTPRequest({body, method: STRING_CONSTANTS.POST_METHOD, url: API_CONSTANTS.VERIFY_PHONE_NUMBER});
-        console.log(res);
+      //  console.log(res);
         //navigation.replace('OtpVerification');
     };
 

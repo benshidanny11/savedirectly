@@ -1,8 +1,8 @@
 import axios from "axios";
 import STRING_CONSTANTS from "../constants/STRING_CONSTANTS";
+import API_CONSTANTS from "../constants/API_CONSTANTS";
 
 export const sendHTTPRequest = async (options) => {
-  console.log(`URL: ${options.url}`);
   try {
     const config = {
       headers: {
@@ -18,16 +18,17 @@ export const sendHTTPRequest = async (options) => {
     let res;
 
     if (options.method === STRING_CONSTANTS.GET_METHOD) {
-      res = await axios.get(options.url, config);
+      res = await axios.get(`${API_CONSTANTS.BASE_URL}${options.url}`, config);
     }else {
-      res = await axios.post(options.url, options.body, config);
+      console.log(`URL: ${API_CONSTANTS.BASE_URL}${options.url}`,"ppppppp");
+      res = await axios.post(`${API_CONSTANTS.BASE_URL}${options.url}`, options.body, config);
     }
 
     if (res && res.data) {
       return res.data;
     }
   } catch (error) {
-    console.log(error.response);
+    console.log(error.request);
     return error;
   }
 };
