@@ -6,10 +6,12 @@ import CustomButton from '../components/CustomButton';
 import { sendHTTPRequest } from '../api/helper';
 import STRING_CONSTANTS from '../constants/STRING_CONSTANTS';
 import API_CONSTANTS from '../constants/API_CONSTANTS';
+import Toast from 'react-native-toast-message';
 
 export default function SignupPage({ navigation }) {
 
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [isLoading, setisLoading] = useState(false);
 
     const handlePhoneInput = (phone) => {
         setPhoneNumber(phone);
@@ -17,12 +19,21 @@ export default function SignupPage({ navigation }) {
 
     const handleSignup = async () => {
         console.log('Sending request...');
+        setisLoading(true);
         const body = { 'countryCode': '+250', 'msisdn': phoneNumber.startsWith('0') ? phoneNumber.substring(1, phoneNumber.length - 1) : phoneNumber };
-        const res = await sendHTTPRequest({body, method: STRING_CONSTANTS.POST_METHOD, url: API_CONSTANTS.VERIFY_PHONE_NUMBER});
-      //  console.log(res);
-        //navigation.replace('OtpVerification');
+        const res = await sendHTTPRequest({ body, method: STRING_CONSTANTS.POST_METHOD, url: API_CONSTANTS.VERIFY_PHONE_NUMBER });
+        console.log(res);
+        setisLoading(false);
+        if (res.registrationToken && res.otp) {
+            navigation.replace('OtpVerification', { registrationToken: res.registrationToken, otp: res.otp, registrationTokenType:res.registrationTokenType });
+        }else{
+            Toast.show({
+                type: 'error',
+                text1: 'Error occured',
+                text2: 'Something went wrong',
+              });
+        }
     };
-
     return (
         <View style={styles.loginPage}>
             <Text style={styles.loginTItle}>Register</Text>
@@ -36,7 +47,7 @@ export default function SignupPage({ navigation }) {
             }}>
                 <View style={styles.registerOption}><Text style={styles.didntRegisgter}>Already registered? </Text><Text style={styles.registerHere}>Login here</Text></View>
             </TouchableOpacity>
-            <CustomButton label="Send verification" onTap={handleSignup} />
+            <CustomButton label={isLoading ? 'Please wait' : 'Send verification'} onTap={handleSignup} disabled={isLoading} />
         </View>
     );
 }

@@ -11,16 +11,19 @@ export const sendHTTPRequest = async (options) => {
 
     };
 
-    if (options.token) {
-      config.headers.Authorization = `Bearer ${options.token}`;
+    if (options.token && options.registrationTokenType) {
+      config.headers.Authorization = options.registrationTokenType === STRING_CONSTANTS.AUTH_TYPE_BEARER ? `Bearer ${options.token}` : `Basic ${options.token}`;
     }
 
     let res;
 
     if (options.method === STRING_CONSTANTS.GET_METHOD) {
+      console.log(config.headers.Authorization);
+      console.log(`URL: ${API_CONSTANTS.BASE_URL}${options.url}`,"Get method");
       res = await axios.get(`${API_CONSTANTS.BASE_URL}${options.url}`, config);
     }else {
-      console.log(`URL: ${API_CONSTANTS.BASE_URL}${options.url}`,"ppppppp");
+      console.log(`URL: ${API_CONSTANTS.BASE_URL}${options.url}`,"Post method");
+      console.log(config.headers.Authorization);
       res = await axios.post(`${API_CONSTANTS.BASE_URL}${options.url}`, options.body, config);
     }
 
@@ -28,31 +31,7 @@ export const sendHTTPRequest = async (options) => {
       return res.data;
     }
   } catch (error) {
-    console.log(error.request);
+   // console.log(error.response);
     return error;
   }
 };
-
-
-/*
-
- Future<UserRegModel> veryfyPhoneNumber(
-      String counrtyCode, String phonumber) async {
-    UserRegModel regModel;
-    print(
-        'URL:+> ${API_URLS.VERIFY_PHONE_NUMBER}, Country code: $counrtyCode, Phone number $phonumber');
-    try {
-      final response = await http.post(Uri.parse(API_URLS.VERIFY_PHONE_NUMBER),
-          headers: {"Content-Type": "application/json"},
-          body: json.encode({"countryCode": counrtyCode, "msisdn": phonumber}));
-      regModel = UserRegModel.fromJson(json.decode(response.body));
-      _userRegModel = regModel;
-      print(response.body);
-      return regModel;
-    } catch (error) {
-      print(error);
-      throw (error);
-    }
-  }
-
-*/

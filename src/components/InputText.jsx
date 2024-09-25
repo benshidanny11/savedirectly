@@ -1,12 +1,12 @@
 import { View, TextInput, Text, StyleSheet } from 'react-native';
 import React from 'react';
 
-export default function InputText({ label, placeholder, isPassword, editable, isNumeric }) {
+export default function InputText({ label, placeholder, isPassword, editable, isNumeric, onChangeText, value }) {
     return (
         <View style={styles.phoneInput}>
             <Text style={styles.label}>{label}</Text>
             <View style={styles.inputContainer}>
-                <TextInput placeholder={placeholder} style={styles.input} placeholderTextColor="#ccc" secureTextEntry={isPassword} editable={editable} keyboardType={isNumeric ? 'numeric' : 'default'} />
+                <TextInput placeholder={placeholder} style={styles.input} placeholderTextColor="#ccc" secureTextEntry={isPassword} editable={editable} keyboardType={isNumeric ? 'numeric' : 'default'} onChangeText={onChangeText} value={value} />
             </View>
         </View>
     );

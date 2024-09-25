@@ -1,9 +1,9 @@
 import { View, Text, Pressable, StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react';
 
-export default function CustomButton({label, onTap}) {
+export default function CustomButton({label, onTap, disabled}) {
     return (
-        <TouchableOpacity onPress={onTap}>
+        <TouchableOpacity onPress={onTap} disabled={disabled}>
             <View style={styles.buttonContainer}>
                 <Text style={styles.labelStyle}>{label}</Text>
             </View>

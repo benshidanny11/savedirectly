@@ -1,16 +1,38 @@
 import { View, Text, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import PhoneInputText from '../components/PhoneInputText';
 import InputText from '../components/InputText';
 import CustomButton from '../components/CustomButton';
+import { sendHTTPRequest } from '../api/helper';
+import { generateBase64 } from '../utils/appUtils';
+import API_CONSTANTS from '../constants/API_CONSTANTS';
+import STRING_CONSTANTS from '../constants/STRING_CONSTANTS';
 
 export default function LoginPage({ navigation }) {
+
+  const [phoneNumber, setPhoneNumber]=useState('');
+  const [password, setPassword]=useState('');
+
+  const handlePhoneNumber =  (text)=>{
+    setPhoneNumber(text);
+  };
+
+  const handlePin =  (text)=>{
+    setPassword(text);
+  };
+
+  const handleLogin =  async ()=> {
+    const encodedToken = generateBase64(phoneNumber,password);
+    const res = await sendHTTPRequest({url: API_CONSTANTS.USER_LOGIN, token:encodedToken, method: STRING_CONSTANTS.GET_METHOD, registrationTokenType:STRING_CONSTANTS.AUTH_TYPE_BASIC});
+    console.log(res);
+  };
+
   return (
     <View style={styles.loginPage}>
       <Text style={styles.loginTItle}>Login</Text>
       <View>
-        <PhoneInputText />
-        <InputText label="Password" placeholder="Enter password" isPassword={true} isNumeric={true} />
+        <PhoneInputText onChangeHandler={handlePhoneNumber} />
+        <InputText label="Password" placeholder="Enter password" isPassword={true} isNumeric={true} onChangeText={handlePin}/>
       </View>
       <Text style={{ color: '#fff' }}>Or</Text>
       <TouchableOpacity onPress={() => {
@@ -18,9 +40,7 @@ export default function LoginPage({ navigation }) {
       }}>
         <View style={styles.registerOption}><Text style={styles.didntRegisgter}>Not registered? </Text><Text style={styles.registerHere}>Register here</Text></View>
       </TouchableOpacity>
-      <CustomButton label="Login" onTap={()=>{
-        navigation.replace('DashboardPage');
-      }} />
+      <CustomButton label="Login" onTap={handleLogin} />
     </View>
   );
 };

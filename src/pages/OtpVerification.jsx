@@ -1,8 +1,11 @@
 import { View, Text, StyleSheet } from 'react-native';
 import React from 'react';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
+import Toast from 'react-native-toast-message';
 
-export default function OtpVerification({navigation}) {
+export default function OtpVerification({route, navigation}) {
+    const { otp, registrationToken, registrationTokenType } = route.params;
+
     return (
 
         <View style={styles.loginPage}>
@@ -12,12 +15,18 @@ export default function OtpVerification({navigation}) {
                     codeInputFieldStyle={styles.underlineStyleBase}
                     codeInputHighlightStyle={styles.underlineStyleHighLighted}
                     onCodeFilled={(code => {
-                        navigation.replace('RegisterDetailsPage');
+                        if(otp === code){
+                            navigation.replace('RegisterDetailsPage',{registrationToken, registrationTokenType} );
+                        }else{
+                         Toast.show({type: 'error',
+                            text1: 'Error',
+                            text2: 'Incorect otp'});
+                        }
                     })}
                 /></View>
         </View>
     );
-};
+}
 
 
 const styles = StyleSheet.create(
@@ -48,7 +57,7 @@ const styles = StyleSheet.create(
             color: '#F49B21',
             fontWeight: '600',
         },
-        otpContainer:{ 
+        otpContainer:{
             height:60,
         },
         borderStyleBase: {
@@ -56,8 +65,8 @@ const styles = StyleSheet.create(
             height: 45,
         },
         borderStyleHighLighted: {
-            borderColor: "#03DAC6",
-           
+            borderColor: '#03DAC6',
+
         },
         underlineStyleBase: {
             width: 50,
@@ -65,7 +74,7 @@ const styles = StyleSheet.create(
             borderWidth: 1,
         },
         underlineStyleHighLighted: {
-            borderColor: "#03DAC6",
+            borderColor: '#03DAC6',
         },
     }
 );
