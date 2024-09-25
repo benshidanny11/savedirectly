@@ -7,6 +7,7 @@ import { sendHTTPRequest } from '../api/helper';
 import { generateBase64 } from '../utils/appUtils';
 import API_CONSTANTS from '../constants/API_CONSTANTS';
 import STRING_CONSTANTS from '../constants/STRING_CONSTANTS';
+import Toast from 'react-native-toast-message';
 
 export default function LoginPage({ navigation }) {
 
@@ -22,9 +23,16 @@ export default function LoginPage({ navigation }) {
   };
 
   const handleLogin =  async ()=> {
-    const encodedToken = generateBase64(phoneNumber,password);
+    const encodedToken = generateBase64(`250${phoneNumber}`,password);
     const res = await sendHTTPRequest({url: API_CONSTANTS.USER_LOGIN, token:encodedToken, method: STRING_CONSTANTS.GET_METHOD, registrationTokenType:STRING_CONSTANTS.AUTH_TYPE_BASIC});
     console.log(res);
+    if(res.status === 200){
+      navigation.replace('DashboardPage');
+    }else{
+      Toast.show({type: 'error',
+        text1: 'Error',
+        text2: 'Incorect credentials'});
+    }
   };
 
   return (
