@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { View } from 'react-native';
+import { StatusBar, View } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -26,6 +26,10 @@ function App() {
   return (
 
     <NavigationContainer>
+       <StatusBar
+              barStyle={'light-content'}
+              backgroundColor={"#37517E"}
+            />
       <Stack.Navigator initialRouteName="LandingPage" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="LoginPage" component={LoginPage} />
         <Stack.Screen name="LandingPage" component={LandingPage} />

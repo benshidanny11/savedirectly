@@ -1,25 +1,41 @@
-import { View, TextInput, Text, StyleSheet } from 'react-native';
-import React from 'react';
+import { View, TextInput, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import Icon from 'react-native-vector-icons/Ionicons'; 
 
 export default function InputText({ label, placeholder, isPassword, editable, isNumeric, onChangeText, value }) {
+    const [showPassword, setShowPassword] = useState(false);
+
     return (
         <View style={styles.phoneInput}>
             <Text style={styles.label}>{label}</Text>
             <View style={styles.inputContainer}>
-                <TextInput placeholder={placeholder} style={styles.input} placeholderTextColor="#ccc" secureTextEntry={isPassword} editable={editable} keyboardType={isNumeric ? 'numeric' : 'default'} onChangeText={onChangeText} value={value} />
+                <TextInput
+                    placeholder={placeholder}
+                    style={styles.input}
+                    placeholderTextColor="#ccc"
+                    secureTextEntry={isPassword && !showPassword}
+                    editable={editable}
+                    keyboardType={isNumeric ? 'numeric' : 'default'}
+                    onChangeText={onChangeText}
+                    value={value}
+                />
+                {isPassword && (
+                    <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                        <Icon
+                            name={showPassword ? "eye-off" : "eye"}
+                            size={24}
+                            color="#ccc"
+                            style={styles.icon}
+                        />
+                    </TouchableOpacity>
+                )}
             </View>
         </View>
     );
 };
 
-
-
 const styles = StyleSheet.create({
     phoneInput: {
-        //  height:50,
-        //  flex:1,
-
-        //backgroundColor:'red',
         width: 350,
         marginBottom: 10,
     },
@@ -29,21 +45,21 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     inputContainer: {
-        //  height:50,
-        //  flex:1,
-
-        borderColor: '#ccc',
         flexDirection: 'row',
+        alignItems: 'center',
+        borderColor: '#ccc',
         borderWidth: 1,
         borderRadius: 5,
-        alignItems: 'center',
+        paddingHorizontal: 10,
     },
     input: {
-        // flex:1,
+        flex: 1,
         height: 50,
         color: '#ccc',
         paddingHorizontal: 10,
-        // width:'80%',
+    },
+    icon: {
+        paddingHorizontal: 10,
     },
     error: {
         color: 'red',
@@ -51,4 +67,3 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
 });
-
