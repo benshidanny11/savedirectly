@@ -41,7 +41,7 @@ export const sendHTTPRequest = async options => {
       return res.data;
     }
   } catch (error) {
-    console.log(error.response.data);
+    console.log(error.response);
     
     Toast.show({
       type: 'error',
