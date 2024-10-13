@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import PhoneInputText from '../components/PhoneInputText';
 import InputText from '../components/InputText';
 import CustomButton from '../components/CustomButton';
@@ -16,7 +16,11 @@ import API_CONSTANTS from '../constants/API_CONSTANTS';
 import Toast from 'react-native-toast-message';
 
 export default function SignupPage({navigation}) {
-  const [countryCallingCode, setCountryCallingCode] = useState('250');
+  const [countryCallingCode, setCountryCallingCode] = useState();
+  useEffect(() => {
+    if (!countryCallingCode)
+      setCountryCallingCode({cca2: 'RW', callinCode: '250'});
+  }, []);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isLoading, setisLoading] = useState(false);
 
@@ -28,19 +32,18 @@ export default function SignupPage({navigation}) {
     console.log('Sending request...');
     setisLoading(true);
     const body = {
-      countryCode: countryCallingCode,
-      msisdn: phoneNumber.startsWith('0')
-        ? phoneNumber.substring(1, phoneNumber.length - 1)
-        : phoneNumber,
+      countryCode: countryCallingCode.cca2,
+      msisdn:
+        countryCallingCode.callingCode +
+           phoneNumber,
     };
     const res = await sendHTTPRequest({
       body,
       method: STRING_CONSTANTS.POST_METHOD,
       url: API_CONSTANTS.VERIFY_PHONE_NUMBER,
     });
-    console.log(res);
     setisLoading(false);
-    if (res.registrationToken && res.otp) {
+    if (res?.registrationToken && res?.otp) {
       navigation.replace('OtpVerification', {
         registrationToken: res.registrationToken,
         otp: res.otp,

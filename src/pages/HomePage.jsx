@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import API_CONSTANTS from '../constants/API_CONSTANTS';
 import {sendHTTPRequest} from '../api/helper';
 import STRING_CONSTANTS from '../constants/STRING_CONSTANTS';
+import Toast from 'react-native-toast-message';
 
 const HomePage = ({navigation}) => {
   const [user, setUser] = useState();
@@ -46,10 +47,39 @@ const HomePage = ({navigation}) => {
             fontSize: 18,
             fontWeight: '900',
           }}>
-          {`Hi ${user?.customerNames}`}
+          {`Hi ${user?.customerNames?.trim().replace(/\s+/g, ' ')}`}
         </Text>
       </View>
       <View>
+        {!balance && (
+          <View
+            style={{
+              backgroundColor: 'rgba(55, 81, 126, 0.8)"',
+              padding: 20,
+              borderRadius: 10,
+              margin: 20,
+            }}>
+            <Text
+              style={{
+                color: 'white',
+              }}>{`Balance`}</Text>
+            <View
+              style={{
+                backgroundColor: 'rgba(55, 81, 126, 0.5)',
+                padding: 10,
+                borderRadius: 10,
+                top: 10,
+              }}>
+              <Text
+                style={{
+                  color: 'white',
+                  fontWeight: '900',
+                }}>
+                OOOO
+              </Text>
+            </View>
+          </View>
+        )}
         <ScrollView
           horizontal={true}
           style={{alignSelf: 'center', top: 20}}
@@ -98,7 +128,7 @@ const HomePage = ({navigation}) => {
             borderColor: '#ccc',
             borderRadius: 10,
           }}>
-          <Text style={{paddingBottom:5}}>Quick save</Text>
+          <Text style={{paddingBottom: 5}}>Quick save</Text>
 
           {chunkArray(merchant, 3).map((row, rowIndex) => (
             <View key={rowIndex} style={styles.row}>
@@ -127,9 +157,8 @@ const getBalance = async user => {
   if (res?.status === 200) return res;
   else {
     Toast.show({
-      type: 'error',
-      text1: 'Error',
-      text2: 'failed to get balance',
+      type: 'info',
+      text2: '0 balance',
     });
   }
 };

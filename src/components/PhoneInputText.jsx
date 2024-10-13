@@ -17,7 +17,7 @@ export default function PhoneInputText({onChangeHandler, value,setCountryCalling
 
             onSelect: country => {
               setCountryCode(country.cca2);
-              setCountryCallingCode(country.callingCode)
+              setCountryCallingCode(country)
             },
           }}
          

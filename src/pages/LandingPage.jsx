@@ -3,6 +3,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function LandingPage({navigation}) {
+
   setTimeout(() => {
     AsyncStorage.getItem('user').then(res => {
       if (res) navigation.replace('DashboardPage');

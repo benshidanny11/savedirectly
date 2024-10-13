@@ -39,6 +39,6 @@ function DashboardPage() {
       <Tab.Screen name="Profile" component={ProfilePage} />
     </Tab.Navigator>
   );
-}
+}     
 
 export default DashboardPage;

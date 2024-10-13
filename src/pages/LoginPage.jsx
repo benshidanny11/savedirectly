@@ -1,11 +1,5 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Image
-} from 'react-native';
-import React, {useState} from 'react';
+import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import PhoneInputText from '../components/PhoneInputText';
 import InputText from '../components/InputText';
 import CustomButton from '../components/CustomButton';
@@ -19,7 +13,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function LoginPage({navigation}) {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
-  const [countryCallingCode, setCountryCallingCode] = useState('250');
+  const [countryCallingCode, setCountryCallingCode] = useState();
+  useEffect(() => {
+    if (!countryCallingCode)
+      setCountryCallingCode({cca2: 'RW', callinCode: '250'});
+  }, []);
   const handlePhoneNumber = text => {
     setPhoneNumber(text);
   };
@@ -29,7 +27,7 @@ export default function LoginPage({navigation}) {
   };
   const handleLogin = async () => {
     const encodedToken = generateBase64(
-      `${countryCallingCode}${phoneNumber}`,
+      `${countryCallingCode?.callinCode}${phoneNumber}`,
       password,
     );
     const res = await sendHTTPRequest({
@@ -39,7 +37,7 @@ export default function LoginPage({navigation}) {
       registrationTokenType: STRING_CONSTANTS.AUTH_TYPE_BASIC,
     });
     if (res?.status === 200) {
-      AsyncStorage.setItem("user",JSON.stringify(res))
+      AsyncStorage.setItem('user', JSON.stringify(res));
       navigation.replace('DashboardPage');
     } else {
       Toast.show({
