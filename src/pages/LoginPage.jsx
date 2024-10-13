@@ -2,9 +2,8 @@ import {
   View,
   Text,
   StyleSheet,
-  Pressable,
   TouchableOpacity,
-  Image,
+  Image
 } from 'react-native';
 import React, {useState} from 'react';
 import PhoneInputText from '../components/PhoneInputText';
@@ -16,6 +15,7 @@ import API_CONSTANTS from '../constants/API_CONSTANTS';
 import STRING_CONSTANTS from '../constants/STRING_CONSTANTS';
 import Toast from 'react-native-toast-message';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function LoginPage({navigation}) {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
@@ -38,8 +38,8 @@ export default function LoginPage({navigation}) {
       method: STRING_CONSTANTS.GET_METHOD,
       registrationTokenType: STRING_CONSTANTS.AUTH_TYPE_BASIC,
     });
-    console.log(res);
     if (res?.status === 200) {
+      AsyncStorage.setItem("user",JSON.stringify(res))
       navigation.replace('DashboardPage');
     } else {
       Toast.show({
