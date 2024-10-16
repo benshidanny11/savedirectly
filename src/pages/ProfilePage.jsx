@@ -37,10 +37,10 @@ const ProfilePage = ({navigation}) => {
             <Icon name="user" size={50} color="#F49B21" />
           </View>
           <View style={{alignSelf: 'center', marginHorizontal: 10}}>
-            <Text style={{fontSize: 20}}>
+            <Text style={{fontSize: 20,color:"#000"}}>
               {user?.customerNames?.trim().replace(/\s+/g, ' ')}
             </Text>
-            <Text style={{fontSize: 17}}>{user?.customerMsisdn}</Text>
+            <Text style={{fontSize: 17,color:"#000"}}>{user?.customerMsisdn}</Text>
           </View>
         </View>
         <TouchableOpacity
@@ -49,8 +49,8 @@ const ProfilePage = ({navigation}) => {
             AsyncStorage.clear();
           }}
           style={style.borderRow}>
-          <Text style={{fontSize: 20}}>Logout</Text>
-          <Icon name="logout" size={30} />
+          <Text style={{fontSize: 20,color:"#000"}}>Logout</Text>
+          <Icon name="logout" size={30} color="#000"/>
         </TouchableOpacity>
       </View>
     </View>
