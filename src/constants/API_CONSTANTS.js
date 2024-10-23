@@ -7,5 +7,6 @@ export default  {
   BALANCE_API: '/inquiry/balance',
   MERCHANT_API: '/merchant/list',
   TRANSACTION_HISTORY_API: '/history',
+  SAVING_PROCESS_API: '/saving/process',
   TERMS_AND_CONDITIONS: 'https://savedirectly.com/terms.html',
 };

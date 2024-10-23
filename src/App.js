@@ -17,6 +17,7 @@ import OtpVerification from './pages/OtpVerification';
 import RegisterDetailsPage from './pages/RegisterDetailsPage';
 import DashboardPage from './pages/DashboardPage';
 import Toast from 'react-native-toast-message';
+import SavePage from './pages/SavePage';
 
 const Stack = createNativeStackNavigator();
 
@@ -37,6 +38,7 @@ function App() {
         <Stack.Screen name="OtpVerification" component={OtpVerification} />
         <Stack.Screen name="RegisterDetailsPage" component={RegisterDetailsPage} />
         <Stack.Screen name="DashboardPage" component={DashboardPage}  />
+        <Stack.Screen name="SavePage" component={SavePage}/>
       </Stack.Navigator>
       <Toast />
     </NavigationContainer>

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   View,
   Text,
@@ -19,7 +20,7 @@ export default function SignupPage({navigation}) {
   const [countryCallingCode, setCountryCallingCode] = useState();
   useEffect(() => {
     if (!countryCallingCode)
-      setCountryCallingCode({cca2: 'RW', callinCode: '250'});
+      {setCountryCallingCode({cca2: 'RW', callinCode: '250'});}
   }, []);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isLoading, setisLoading] = useState(false);

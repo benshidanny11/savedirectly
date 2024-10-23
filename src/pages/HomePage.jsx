@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   View,
   Text,
@@ -22,7 +23,7 @@ const HomePage = ({navigation}) => {
   const [merchant, setMerchant] = useState();
   const [loadingBalance, setLoadingBalance] = useState(true); // Loading state for balance
   const [loadingMerchant, setLoadingMerchant] = useState(true); // Loading state for merchant
-
+ 
   useEffect(() => {
     AsyncStorage.getItem('user').then(res => {
       if (res) {
@@ -154,7 +155,9 @@ const HomePage = ({navigation}) => {
               chunkArray(merchant, 3).map((row, rowIndex) => (
                 <View key={rowIndex} style={styles.row}>
                   {row.map((item, key) => (
-                    <TouchableOpacity key={key} style={styles.item}>
+                    <TouchableOpacity key={key} style={styles.item} onPress={()=>{
+                      navigation.navigate('SavePage');
+                    }}>
                       <Text
                         style={{
                           color: '#37517E',
