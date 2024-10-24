@@ -21,15 +21,12 @@ export const sendHTTPRequest = async options => {
     let res;
 
     if (options.method === STRING_CONSTANTS.GET_METHOD) {
-      console.log(config.headers.Authorization);
-      console.log(`URL: ${API_CONSTANTS.BASE_URL}${options.url}`, 'Get method');
       res = await axios.get(`${API_CONSTANTS.BASE_URL}${options.url}`, config);
     } else {
       console.log(
         `URL: ${API_CONSTANTS.BASE_URL}${options.url}`,
         'Post method',
       );
-      console.log(config.headers.Authorization);
       res = await axios.post(
         `${API_CONSTANTS.BASE_URL}${options.url}`,
         options.body,
@@ -41,7 +38,7 @@ export const sendHTTPRequest = async options => {
       return res.data;
     }
   } catch (error) {
-    console.log(error.response);
+    console.log(error.response.data);
     
     Toast.show({
       type: 'error',

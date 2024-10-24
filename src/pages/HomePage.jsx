@@ -15,6 +15,8 @@ import {sendHTTPRequest} from '../api/helper';
 import STRING_CONSTANTS from '../constants/STRING_CONSTANTS';
 import Toast from 'react-native-toast-message';
 import Transactions from '../components/Transactions';
+import {useDispatch} from 'react-redux';
+import { setMerchants } from '../store/globalSlice';
 
 const HomePage = ({navigation}) => {
   const [user, setUser] = useState();
@@ -23,7 +25,7 @@ const HomePage = ({navigation}) => {
   const [merchant, setMerchant] = useState();
   const [loadingBalance, setLoadingBalance] = useState(true); // Loading state for balance
   const [loadingMerchant, setLoadingMerchant] = useState(true); // Loading state for merchant
- 
+
   useEffect(() => {
     AsyncStorage.getItem('user').then(res => {
       if (res) {
@@ -31,20 +33,21 @@ const HomePage = ({navigation}) => {
       }
     });
   }, []);
-
+  const dispatch = useDispatch();
   useEffect(() => {
     if (user) {
-      setLoadingBalance(true); // Set loading to true before fetching balance
+      setLoadingBalance(true); 
       getBalance(user).then(res => {
         setCurrency(res?.currency);
         setBalance(res?.data);
-        setLoadingBalance(false); // Set loading to false after fetching balance
+        setLoadingBalance(false); 
       });
 
-      setLoadingMerchant(true); // Set loading to true before fetching merchant
+      setLoadingMerchant(true); 
       getMerchant(user).then(res => {
         setMerchant(res?.data);
-        setLoadingMerchant(false); // Set loading to false after fetching merchant
+        dispatch(setMerchants(res?.data))
+        setLoadingMerchant(false);
       });
     }
   }, [user]);
@@ -155,9 +158,12 @@ const HomePage = ({navigation}) => {
               chunkArray(merchant, 3).map((row, rowIndex) => (
                 <View key={rowIndex} style={styles.row}>
                   {row.map((item, key) => (
-                    <TouchableOpacity key={key} style={styles.item} onPress={()=>{
-                      navigation.navigate('SavePage');
-                    }}>
+                    <TouchableOpacity
+                      key={key}
+                      style={styles.item}
+                      onPress={() => {
+                        navigation.navigate('SavePage', {merchant: item});
+                      }}>
                       <Text
                         style={{
                           color: '#37517E',

@@ -12,7 +12,7 @@ export default function InputText({ label, placeholder, isPassword, editable, is
                 <TextInput
                     placeholder={placeholder}
                     style={styles.input}
-                    placeholderTextColor="#ccc"
+                    placeholderTextColor="#fff"
                     secureTextEntry={isPassword && !showPassword}
                     editable={editable}
                     keyboardType={isNumeric ? 'numeric' : 'default'}
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     label: {
-        color: '#ccc',
+        color: '#fff',
         marginBottom: 5,
         fontSize: 16,
     },
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     input: {
         flex: 1,
         height: 50,
-        color: '#ccc',
+        color: '#fff',
         paddingHorizontal: 10,
     },
     icon: {

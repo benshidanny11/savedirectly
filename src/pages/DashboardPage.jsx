@@ -5,6 +5,7 @@ import HomePage from './HomePage';
 import TransactionsPage from './TransactionsPage';
 import ProfilePage from './ProfilePage';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import SavePage from './SavePage';
 
 const Tab = createBottomTabNavigator();
 
@@ -34,7 +35,7 @@ function DashboardPage() {
         },
       })}>
       <Tab.Screen name="Home" component={HomePage} />
-      <Tab.Screen name="Save" component={HomePage} />
+      <Tab.Screen name="Save" component={SavePage} />
       <Tab.Screen name="Transactions" component={TransactionsPage} />
       <Tab.Screen name="Profile" component={ProfilePage} />
     </Tab.Navigator>

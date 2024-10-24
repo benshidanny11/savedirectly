@@ -7,11 +7,16 @@ import {
 } from 'react-native';
 import React from 'react';
 
-export default function CustomButton({label, onTap, disabled}) {
+export default function CustomButton({label, onTap, disabled, style,textStyle}) {
   return (
     <TouchableOpacity onPress={onTap} disabled={disabled}>
-      <View style={[styles.buttonContainer, {opacity: disabled ? 0.5:1}]}>
-        <Text style={styles.labelStyle}>{label}</Text>
+      <View
+        style={[
+          styles.buttonContainer,
+          {opacity: disabled ? 0.5 : 1},
+          style ? style : {},
+        ]}>
+        <Text style={[styles.labelStyle,textStyle?textStyle:{}]}>{label}</Text>
       </View>
     </TouchableOpacity>
   );
